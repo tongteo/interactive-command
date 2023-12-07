@@ -1,38 +1,94 @@
-.App {
+/* App.css */
+/* App.css */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+main {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 1rem;
 }
 
-.App-link {
-  color: #61dafb;
+label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
 }
+
+button {
+  padding: 0.5rem;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 3px;
+}
+
+/* App.css */
+/* ... (các quy tắc CSS hiện tại) */
+
+#loadingContainer {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 1.2em;
+  color: #333;
+}
+
+/* Animation loading */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#loadingContainer::after {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 4px solid #ccc;
+  border-top: 4px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+
+
+#loadingContainer::before {
+  content: '';
+  display: inline-block;
+  animation: dotsAnimation 1.5s infinite steps(4);
+}
+

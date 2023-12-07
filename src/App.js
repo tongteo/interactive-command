@@ -1,23 +1,79 @@
-import logo from './logo.svg';
+// App.js
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  const [userInput, setUserInput] = useState('');
+  const [responseData, setResponseData] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [dots, setDots] = useState(1);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots < 3 ? prevDots + 1 : 1));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const sendCommand = async () => {
+    try {
+      setLoading(true);
+
+      const response = await fetch('https://geny.life', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: '19194a',
+          user_input: userInput,
+          interaction_id: '19194k',
+        }),
+      });
+
+      const data = await response.json();
+      const finalData = JSON.stringify(data, null, 2).replace(/: #Do nothing/g, '');
+
+      const cleanedData = finalData.replace(/\[|\]/g, '');
+
+      setResponseData(cleanedData);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div>
+      <header>
+        <h1>Interactive Command</h1>
       </header>
+
+      <main>
+        <form>
+          <label htmlFor="userInput">User Input:</label>
+          <input
+            type="text"
+            id="userInput"
+            name="userInput"
+            value={userInput}
+            onChange={(e) => setUserInput(e.target.value)}
+          />
+          <button type="button" onClick={sendCommand}>
+            Send Command
+          </button>
+        </form>
+
+        {loading ? (
+          <div id="loadingContainer"></div>
+        ) : (
+          <div id="responseContainer">
+            <pre>{responseData}</pre>
+          </div>
+        )}
+      </main>
     </div>
   );
 }
